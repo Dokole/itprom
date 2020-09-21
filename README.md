@@ -1,2 +1,1 @@
-# itprom
-Test task
+# Test task for IT Prom
