@@ -33,6 +33,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Cacheable(key = "#root.method.name.concat(#id)")
     @Transactional(readOnly = true)
     public Employee getEmployeeById(Long id) {
         Employee employee = employeeRepository.findById(id).orElse(null);
@@ -43,6 +44,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Cacheable(key = "#root.method.name")
     @Transactional(readOnly = true)
     public List<Employee> getAllEmployees() {
         List<Employee> employees = Lists.newArrayList(employeeRepository.findAll());
@@ -53,6 +55,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public Employee createEmployee(Employee employee) {
         if (employee.getId() != null) {
             throw new BadRequestException("Id=" + employee.getId() + " should be null to create an employee. Can't be saved.");
@@ -61,6 +64,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public Employee updateEmployee(Employee employee) {
         if (!employeeRepository.existsById(employee.getId())) {
             throw new BadRequestException("Can't update employee with id=" + employee.getId() +
@@ -70,11 +74,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void deleteEmployeeById(Long id) {
         employeeRepository.deleteById(id);
     }
 
     @Override
+    @CacheEvict(allEntries = true)
     public void deleteAllEmployees() {
         employeeRepository.deleteAll();
     }

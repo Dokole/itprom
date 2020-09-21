@@ -32,6 +32,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
+    @Cacheable(key = "#root.method.name.concat(#id)")
     @Transactional(readOnly = true)
     public Profession getProfessionById(Long id) {
         Profession profession = professionRepository.findById(id).orElse(null);
@@ -42,6 +43,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
+    @Cacheable(key = "#root.method.name")
     @Transactional(readOnly = true)
     public List<Profession> getAllProfessions() {
         List<Profession> professions = Lists.newArrayList(professionRepository.findAll());
@@ -52,6 +54,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"professions", "employees"}, allEntries = true)
     public Profession createProfession(Profession profession) {
         if (profession.getId() != null) {
             throw new BadRequestException("Id=" + profession.getId() + " should be null to create a profession. Can't be saved.");
@@ -60,6 +63,7 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"professions", "employees"}, allEntries = true)
     public Profession updateProfession(Profession profession) {
         if (!professionRepository.existsById(profession.getId())) {
             throw new BadRequestException("Can't update profession with id=" + profession.getId() +
@@ -69,11 +73,13 @@ public class ProfessionServiceImpl implements ProfessionService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"professions", "employees"}, allEntries = true)
     public void deleteProfessionById(Long id) {
         professionRepository.deleteById(id);
     }
 
     @Override
+    @CacheEvict(cacheNames = {"professions", "employees"}, allEntries = true)
     public void deleteAllProfessions() {
         professionRepository.deleteAll();
     }

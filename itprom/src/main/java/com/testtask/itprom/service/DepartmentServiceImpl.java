@@ -33,6 +33,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Cacheable(key = "#root.method.name.concat(#id)")
     @Transactional(readOnly = true)
     public Department getDepartmentById(Long id) {
         Department department = departmentRepository.findById(id).orElse(null);
@@ -43,6 +44,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @Cacheable(key = "#root.method.name")
     @Transactional(readOnly = true)
     public List<Department> getAllDepartments() {
         List<Department> departments = Lists.newArrayList(departmentRepository.findAll());
@@ -53,6 +55,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"departments", "employees"}, allEntries = true)
     public Department createDepartment(Department department) {
         if (department.getId() != null) {
             throw new BadRequestException("Id=" + department.getId() + " should be null to create a department. Can't be saved.");
@@ -61,6 +64,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"departments", "employees"}, allEntries = true)
     public Department updateDepartment(Department department) {
         if (!departmentRepository.existsById(department.getId())) {
             throw new BadRequestException("Can't update department with id=" + department.getId() +
@@ -70,11 +74,13 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"departments", "employees"}, allEntries = true)
     public void deleteDepartmentById(Long id) {
         departmentRepository.deleteById(id);
     }
 
     @Override
+    @CacheEvict(cacheNames = {"departments", "employees"}, allEntries = true)
     public void deleteAllDepartments() {
         departmentRepository.deleteAll();
     }
