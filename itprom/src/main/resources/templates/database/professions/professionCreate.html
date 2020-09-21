@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new profession</title>
+</head>
+<body>
+<form action="#" th:action="@{/professions/create}" th:object="${newProfession}" method="post">
+    <div class="validationError" th:if="${#fields.hasErrors('*')}">
+        <p class="validationError">
+            Please correct you input data
+        </p>
+    </div>
+    <label for="name">Name of a profession</label>
+    <br/>
+    <p class="validationError" th:each="err : ${#fields.errors('name')}" th:text="${err}"></p>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <br/>
+    <label for="commentary">Commentary</label>
+    <br/>
+    <input type="text" th:field="*{commentary}" id="commentary" placeholder="Enter commentary here">
+    <br/>
+
+    <br/>
+    <input type="submit" value="Create a profession">
+</form>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

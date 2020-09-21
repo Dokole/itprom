@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>404 not found</title>
+</head>
+<body>
+<h1 th:text="'Error status: ' + ${errorMessage.status}"/>
+<p th:text="'Error details: ' + ${errorMessage.errorMsg}"/>
+<p th:text="'Localtime: ' + ${errorMessage.timestamp}"/>
+<p><button onclick="goBack()">Go Back</button></p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

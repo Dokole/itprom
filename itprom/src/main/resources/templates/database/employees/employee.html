@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Employee</title>
+</head>
+<body>
+<div th:switch="${employee}">
+    <h2 th:case="null">Employee doesn't exists</h2>
+    <div th:case="*">
+        <h2>Employee information</h2>
+        <table cellspacing="2" border="1" cellpadding="5" width="600">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>First name</th>
+                <th>Last name</th>
+                <th>Patronymic</th>
+                <th>Commentary</th>
+                <th>Department</th>
+                <th>Profession</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td th:text="${employee.id}"></td>
+            <td th:text="${employee.firstName}"></td>
+            <td th:text="${employee.lastName}"></td>
+            <td th:text="${employee.patronymic}"></td>
+            <td th:text="${employee.commentary}"></td>
+            <div th:switch="${employee.department}">
+                <td th:case="null">No department chosen</td>
+                <td th:case="*"><a th:href="@{/departments/{id}(id=${employee.department.id})}"
+                                   th:text="${employee.department.name}"></a></td>
+            </div>
+            <div th:switch="${employee.profession}">
+                <td th:case="null">No profession chosen</td>
+                <td th:case="*"><a th:href="@{/professions/{id}(id=${employee.profession.id})}"
+                                   th:text="${employee.profession.name}"></a></td>
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

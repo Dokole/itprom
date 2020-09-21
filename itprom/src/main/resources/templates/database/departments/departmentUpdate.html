@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Update department</title>
+</head>
+<body>
+<form action="#" th:action="@{/departments/update}" th:object="${department}" method="post">
+    <div th:if="${#fields.hasErrors()}">
+        <p class="validationError">
+            Please correct you input data
+        </p>
+    </div>
+    <label for="id">Id of a department</label>
+    <br/>
+    <input type="text" th:field="*{id}" id="id" readonly="readonly" placeholder="Id">
+    <br/>
+
+    <label for="name">Name of a department</label>
+    <br/>
+    <p class="validationError" th:each="err : ${#fields.errors('name')}" th:text="${err}"></p>
+    <input type="text" th:field="*{name}" id="name" placeholder="Name">
+    <br/>
+    <label for="commentary">Commentary</label>
+    <br/>
+    <input type="text" th:field="*{commentary}" id="commentary" placeholder="Enter commentary here">
+    <br/>
+
+    <label>Select a head department</label>
+    <br/>
+    <select th:field="*{parentDepartmentId}">
+        <optgroup label="Select a department">
+            <option th:each="department : ${departmentsList}" th:value="${department.id}" th:text="${department.name}">Select a department</option>
+        </optgroup>
+    </select>
+    <br/>
+    <br/>
+    <input type="submit" value="Update department">
+</form>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

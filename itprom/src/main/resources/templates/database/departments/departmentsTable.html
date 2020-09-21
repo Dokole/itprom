@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Departments Table</title>
+</head>
+<body>
+<div th:switch="${departmentsList}">
+    <h2 th:case="null">No departments found!</h2>
+    <div th:case="*">
+        <h2>Departments</h2>
+        <table cellspacing="2" border="1" cellpadding="5" width="800">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Commentary</th>
+                <th>Head department</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="department : ${departmentsList}">
+                <td th:text="${department.id}"></td>
+                <td th:text="${department.name}"></td>
+                <td th:text="${department.commentary}"></td>
+                <div th:switch="${department.parentDepartment}">
+                    <td th:case="null">No head departments</td>
+                    <td th:case="*"><a th:href="@{/departments/{id}(id=${department.parentDepartment.id})}"
+                                       th:text="${department.parentDepartment.name}"></a></td>
+
+                </div>
+                <td><a th:href="@{/departments/{id}/update(id=${department.id})}">Update</a></td>
+                <td><a th:href="@{/departments/{id}/delete(id=${department.id})}"
+                       onclick="return confirm('Are you sure you want to delete this department?');">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><a href="/departments/getAll">Update list</a></p>
+<p><a href="/departments/create">Create new department</a></p>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

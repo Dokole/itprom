@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Update an employee</title>
+</head>
+<body>
+<form action="#" th:action="@{/employees/update}" th:object="${employee}" method="post">
+    <div class="validationError" th:if="${#fields.hasErrors('*')}">
+        <p class="validationError">
+            Please correct you input data
+        </p>
+    </div>
+
+    <label for="id">Id of an employee</label>
+    <br/>
+    <input type="text" th:field="*{id}" id="id" readonly="readonly" placeholder="Id">
+    <br/>
+
+    <label for="firstName">First name of an employee</label>
+    <br/>
+    <p class="validationError" th:each="err : ${#fields.errors('firstName')}" th:text="${err}"></p>
+    <input type="text" th:field="*{firstName}" id="firstName" placeholder="First name">
+    <br/>
+
+    <label for="lastName">Last name of an employee</label>
+    <br/>
+    <p class="validationError" th:each="err : ${#fields.errors('lastName')}" th:text="${err}"></p>
+    <input type="text" th:field="*{lastName}" id="lastName" placeholder="Last name">
+    <br/>
+
+    <label for="patronymic">Patronymic of an employee</label>
+    <br/>
+    <p class="validationError" th:each="err : ${#fields.errors('patronymic')}" th:text="${err}"></p>
+    <input type="text" th:field="*{patronymic}" id="patronymic" placeholder="Patronymic">
+    <br/>
+
+    <label for="commentary">Commentary</label>
+    <br/>
+    <input type="text" th:field="*{commentary}" id="commentary" placeholder="Enter commentary here">
+    <br/>
+
+    <label>Select a department</label>
+    <br/>
+    <select th:field="*{departmentId}">
+        <optgroup label="Select a department">
+            <option th:each="department : ${departmentsList}"
+                    th:value="${department.id}"
+                    th:text="${department.name}">Select a department</option>
+        </optgroup>
+    </select>
+    <br/>
+
+    <label>Select a profession</label>
+    <br/>
+    <select th:field="*{professionId}">
+        <optgroup label="Select a profession">
+            <option th:each="profession : ${professionsList}"
+                    th:value="${profession.id}"
+                    th:text="${profession.name}">Select a profession</option>
+        </optgroup>
+    </select>
+    <br/>
+    <br/>
+    <input type="submit" value="Update an employee">
+</form>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

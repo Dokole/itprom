@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Department</title>
+</head>
+<body>
+<div th:switch="${department}">
+    <h2 th:case="null">Department doesn't exists</h2>
+    <div th:case="*">
+        <h2>Department information</h2>
+        <table cellspacing="2" border="1" cellpadding="5" width="600">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Commentary</th>
+                <th>Head department</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td th:text="${department.id}"></td>
+            <td th:text="${department.name}"></td>
+            <td th:text="${department.commentary}"></td>
+            <div th:switch="${department.parentDepartment}">
+                <td th:case="null">No head departments</td>
+                <td th:case="*"><a th:href="@{/departments/{id}(id=${department.parentDepartment.id})}"
+                                   th:text="${department.parentDepartment.name}"></a></td>
+            </div>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

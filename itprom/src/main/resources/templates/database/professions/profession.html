@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Profession</title>
+</head>
+<body>
+<div th:switch="${profession}">
+    <h2 th:case="null">Profession doesn't exists</h2>
+    <div th:case="*">
+        <h2>Profession information</h2>
+        <table cellspacing="2" border="1" cellpadding="5" width="600">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Commentary</th>
+            </tr>
+            </thead>
+            <tbody>
+            <td th:text="${profession.id}"></td>
+            <td th:text="${profession.name}"></td>
+            <td th:text="${profession.commentary}"></td>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

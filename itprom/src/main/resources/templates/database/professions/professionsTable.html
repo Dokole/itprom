@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Table of professions</title>
+</head>
+<body>
+<div th:switch="${professionsList}">
+    <h2 th:case="null">No professions found!</h2>
+    <div th:case="*">
+        <h2>Professions</h2>
+        <table cellspacing="2" border="1" cellpadding="5" width="800">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Commentary</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="profession : ${professionsList}">
+                <td th:text="${profession.id}"></td>
+                <td th:text="${profession.name}"></td>
+                <td th:text="${profession.commentary}"></td>
+                <td><a th:href="@{/professions/{id}/update(id=${profession.id})}">Update</a></td>
+                <td><a th:href="@{/professions/{id}/delete(id=${profession.id})}"
+                       onclick="return confirm('Are you sure you want to delete this profession?');">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<p><a href="/professions/getAll">Update list</a></p>
+<p><a href="/professions/create">Create new profession</a></p>
+<p><button onclick="goBack()">Go Back</button></p>
+<p><a href="/home">Home</a> </p>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>
